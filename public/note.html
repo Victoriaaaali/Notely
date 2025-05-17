@@ -1,0 +1,29 @@
+<script>
+  // Extrae el ID de la ruta /note/<id>
+  const path = window.location.pathname;
+  const id = path.split('/').pop() || '';
+  const deepLink = `notely://note/${id}`;
+  const appStoreURL = 'https://apps.apple.com/app/id6745149931';
+
+  // Función para abrir la app usando un iframe oculto
+  function openApp() {
+    const iframe = document.createElement('iframe');
+    iframe.style.display = 'none';
+    iframe.src = deepLink;
+    document.body.appendChild(iframe);
+  }
+
+  // Intento inmediato
+  openApp();
+
+  // Si en 1s seguimos aquí, vamos a la App Store
+  setTimeout(() => {
+    window.location.replace(appStoreURL);
+  }, 1000);
+
+  // Actualiza el href del botón tras cargar el DOM
+  document.addEventListener('DOMContentLoaded', () => {
+    const btn = document.getElementById('open-btn');
+    if (btn) btn.href = deepLink;
+  });
+</script>

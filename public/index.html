@@ -35,27 +35,27 @@
       font-size: 1rem;
     }
   </style>
-  <script>
-    // Extrae ID de la ruta: /note/<id>
-    const path = window.location.pathname;
-    const id = path.split('/').pop() || '';
-    const deepLink = `notely://note/${id}`;
-    const appStoreURL = 'https://apps.apple.com/app/id6745149931';
+<script>
+  // Extrae el ID y construye las URLs
+  const path = window.location.pathname;
+  const id = path.split('/').pop() || '';
+  const universalLink = window.location.href;
+  const appStoreURL = 'https://apps.apple.com/app/id6745149931';
 
-    // Intentar abrir la app inmediatamente
-    window.location.href = deepLink;
+  // Intenta abrir la app vía Universal Link (HTTPS)
+  window.location.href = universalLink;
 
-    // Si no funciona (app no instalada), tras 2s redirige al App Store
-    setTimeout(() => {
-      window.location.replace(appStoreURL);
-    }, 2000);
+  // Si tras 1s sigues en la web, redirige al App Store
+  setTimeout(() => {
+    window.location.replace(appStoreURL);
+  }, 1000);
 
-    // Al cargar, actualiza el botón
-    window.addEventListener('DOMContentLoaded', () => {
-      const btn = document.getElementById('open-btn');
-      if (btn) btn.href = deepLink;
-    });
-  </script>
+  // Asegura que el botón "Open in Notely" también use la URL HTTPS
+  document.addEventListener('DOMContentLoaded', () => {
+    const btn = document.getElementById('open-btn');
+    if (btn) btn.href = universalLink;
+  });
+</script>
 </head>
 <body>
   <div>

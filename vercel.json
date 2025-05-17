@@ -3,15 +3,15 @@
     {
       "src": "/apple-app-site-association",
       "headers": { "Content-Type": "application/json" },
-      "dest": "/public/apple-app-site-association"
+      "dest": "/apple-app-site-association"
     },
     {
       "src": "/note/(.*)",
-      "dest": "/public/note.html"
+      "dest": "/note.html"
     },
     {
       "src": "/(.*)",
-      "dest": "/public/index.html"
+      "dest": "/index.html"
     }
   ]
 }

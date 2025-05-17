@@ -1,62 +1,70 @@
-import { useEffect } from 'react';
-import Head from 'next/head';
-import { useRouter } from 'next/router';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Open in Notely</title>
+  <meta name="description" content="Import this summary into Notely." />
+  <!-- Smart App Banner -->
+  <meta
+    name="apple-itunes-app"
+    content="app-id=6745149931, app-argument=notely://note/"
+  />
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background: #fafafa;
+      color: #333;
+      text-align: center;
+      padding: 0 20px;
+    }
+    .cta {
+      display: inline-block;
+      margin-top: 24px;
+      padding: 14px 28px;
+      background: #0070f3;
+      color: #fff;
+      border-radius: 14px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+  </style>
+  <script>
+    // Extrae ID de la ruta: /note/<id>
+    const path = window.location.pathname;
+    const id = path.split('/').pop() || '';
+    const deepLink = `notely://note/${id}`;
+    const appStoreURL = 'https://apps.apple.com/app/id6745149931';
 
-const APP_STORE_URL = 'https://apps.apple.com/app/id6745149931';
+    // Intentar abrir la app inmediatamente
+    window.location.href = deepLink;
 
-export default function NoteFallback() {
-  const { query } = useRouter();
-  const { id } = query;
-  const deepLink = `notely://note/${id}`;
-
-  useEffect(() => {
-    // Try to open the app; if not installed, fall back after 2s
-    const timer = setTimeout(() => {
-      window.location.replace(APP_STORE_URL);
+    // Si no funciona (app no instalada), tras 2s redirige al App Store
+    setTimeout(() => {
+      window.location.replace(appStoreURL);
     }, 2000);
-    // Attempt to open immediately
-    window.location.replace(deepLink);
-    return () => clearTimeout(timer);
-  }, [id]);
 
-  return (
-    <>
-      <Head>
-        <title>Open in Notely</title>
-        <meta name="description" content="Import this summary into Notely." />
-        {/* Smart App Banner */}
-        <meta
-          name="apple-itunes-app"
-          content={`app-id=6745149931, app-argument=${deepLink}`}
-        />
-      </Head>
-      <main style={{
-        maxWidth: '480px',
-        margin: '15vh auto',
-        textAlign: 'center',
-        fontFamily: 'system-ui, sans-serif',
-      }}>
-        <h1>Open in Notely</h1>
-        <p>
-          If you have the Notely app installed, it should open now.<br />
-          Otherwise, you will be redirected to the App Store shortly.
-        </p>
-        <a
-          href={deepLink}
-          style={{
-            display: 'inline-block',
-            marginTop: '24px',
-            padding: '14px 28px',
-            background: '#0070f3',
-            color: '#fff',
-            borderRadius: '14px',
-            textDecoration: 'none',
-            fontWeight: 600,
-          }}
-        >
-          Open in Notely
-        </a>
-      </main>
-    </>
-  );
-}
+    // Al cargar, actualiza el botón
+    window.addEventListener('DOMContentLoaded', () => {
+      const btn = document.getElementById('open-btn');
+      if (btn) btn.href = deepLink;
+    });
+  </script>
+</head>
+<body>
+  <div>
+    <h1>Open in Notely</h1>
+    <p>
+      If you have Notely installed, it should open now. <br />
+      Otherwise we’ll send you to the App Store.
+    </p>
+    <a id="open-btn" class="cta" href="#">Open in Notely</a>
+  </div>
+</body>
+</html>

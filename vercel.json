@@ -6,6 +6,10 @@
       "dest": "/public/apple-app-site-association"
     },
     {
+      "src": "/note/(.*)",
+      "dest": "/public/note.html"
+    },
+    {
       "src": "/(.*)",
       "dest": "/public/index.html"
     }

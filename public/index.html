@@ -1,11 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Notely</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Open in Notely</title>
+  <meta name="description" content="Import this summary into Notely." />
+  <!-- Smart App Banner: sugiere abrir en la app si está instalada -->
+  <meta 
+    name="apple-itunes-app" 
+    content="app-id=6745149931, app-argument=notely://note/" 
+  />
+
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+      background: #fafafa;
+      color: #333;
+    }
+    .container {
+      max-width: 480px;
+      padding: 0 20px;
+    }
+    .cta {
+      display: inline-block;
+      margin-top: 24px;
+      padding: 14px 28px;
+      background: #0070f3;
+      color: #fff;
+      border-radius: 14px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+  </style>
+
+  <script>
+    // Extrae el ID de la nota de la URL (/note/<id>)
+    const segments = window.location.pathname.split('/');
+    const noteId = segments[segments.length - 1] || '';
+
+    // Construye el deep link
+    const deepLink = `notely://note/${noteId}`;
+    // Construye el Universal Link (enlace actual)
+    const universalLink = window.location.href;
+
+    // Tras 2 segundos, redirige al App Store si la app no responde
+    setTimeout(() => {
+      window.location.replace('https://apps.apple.com/app/id6745149931');
+    }, 2000);
+
+    // Al cargar, fija el href del botón
+    window.addEventListener('DOMContentLoaded', () => {
+      const btn = document.getElementById('open-btn');
+      if (btn) btn.href = deepLink;
+    });
+  </script>
 </head>
+
 <body>
-  <h1>Notely</h1>
-  <p>If you see this page, the Universal Link worked but the app isn’t installed.</p>
+  <div class="container">
+    <h1>Open in Notely</h1>
+    <p>
+      Tap the button below to open this summary in the Notely app.<br />
+      If you don’t have it installed, you’ll be redirected to the App Store.
+    </p>
+    <a id="open-btn" class="cta" href="#">
+      Open in Notely
+    </a>
+  </div>
 </body>
 </html>
